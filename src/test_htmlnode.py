@@ -1,6 +1,6 @@
 import unittest
 
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
 
 
 class TestHTMLNode(unittest.TestCase):
@@ -30,6 +30,39 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(
             node.to_html(),
             "Hello, world!"
+        )
+
+    def test_parent_node_leaf_only(self):
+        children = [
+            LeafNode("b", "Bold Text"),
+            LeafNode(None, "Normal Text"),
+            LeafNode("i", "Italic Text"),
+            LeafNode("a", "Link Text", {
+                     "href": "https://example.com", "target": "_blank"}),
+        ]
+        node = ParentNode("p", children, None)
+        self.assertEqual(
+            node.to_html(),
+            "<p><b>Bold Text</b>Normal Text<i>Italic Text</i><a href=\"https://example.com\" target=\"_blank\">Link Text</a></p>"
+        )
+
+    def test_nested_parent_node(self):
+        parent_children = [
+            LeafNode("b", "Bold Text"),
+            LeafNode("i", "Italic Text"),
+        ]
+        children = [
+            LeafNode("b", "Bold Text"),
+            LeafNode(None, "Normal Text"),
+            ParentNode("div", parent_children),
+            LeafNode("i", "Italic Text"),
+            LeafNode("a", "Link Text", {
+                     "href": "https://example.com", "target": "_blank"}),
+        ]
+        node = ParentNode("p", children, None)
+        self.assertEqual(
+            node.to_html(),
+            "<p><b>Bold Text</b>Normal Text<div><b>Bold Text</b><i>Italic Text</i></div><i>Italic Text</i><a href=\"https://example.com\" target=\"_blank\">Link Text</a></p>"
         )
 
 
