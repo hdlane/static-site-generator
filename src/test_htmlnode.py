@@ -65,6 +65,14 @@ class TestHTMLNode(unittest.TestCase):
             "<p><b>Bold Text</b>Normal Text<div><b>Bold Text</b><i>Italic Text</i></div><i>Italic Text</i><a href=\"https://example.com\" target=\"_blank\">Link Text</a></p>"
         )
 
+    def test_parent_no_tag(self):
+        node = ParentNode(None, [LeafNode("p", "Paragraph Text")], None)
+        self.assertRaises(ValueError)
+
+    def test_parent_no_children(self):
+        node = ParentNode("p", None, None)
+        self.assertRaises(ValueError)
+
 
 if __name__ == "__main__":
     unittest.main()
