@@ -4,7 +4,7 @@ from htmlnode import HTMLNode, LeafNode, ParentNode
 
 
 class TestHTMLNode(unittest.TestCase):
-    def test_props_to_html(self):
+    def test_to_html_props(self):
         props = {"href": "https://example.com", "target": "_blank"}
         node = HTMLNode("<a>", "Example.com", None, props)
         self.assertEqual(
@@ -12,7 +12,7 @@ class TestHTMLNode(unittest.TestCase):
             " href=\"https://example.com\" target=\"_blank\""
         )
 
-    def test_repr(self):
+    def test_repr_html(self):
         node = HTMLNode("h1", "Test Heading1")
         self.assertEqual(
             "HTMLNode(h1, Test Heading1, None, None)", repr(node)
@@ -32,7 +32,7 @@ class TestHTMLNode(unittest.TestCase):
             "Hello, world!"
         )
 
-    def test_parent_node_leaf_only(self):
+    def test_to_html_with_children(self):
         children = [
             LeafNode("b", "Bold Text"),
             LeafNode(None, "Normal Text"),
@@ -46,18 +46,18 @@ class TestHTMLNode(unittest.TestCase):
             "<p><b>Bold Text</b>Normal Text<i>Italic Text</i><a href=\"https://example.com\" target=\"_blank\">Link Text</a></p>"
         )
 
-    def test_nested_parent_node(self):
-        parent_children = [
+    def test_to_html_with_grandchildren(self):
+        grandchildren = [
             LeafNode("b", "Bold Text"),
             LeafNode("i", "Italic Text"),
         ]
         children = [
             LeafNode("b", "Bold Text"),
             LeafNode(None, "Normal Text"),
-            ParentNode("div", parent_children),
+            ParentNode("div", grandchildren),
             LeafNode("i", "Italic Text"),
             LeafNode("a", "Link Text", {
-                     "href": "https://example.com", "target": "_blank"}),
+                "href": "https://example.com", "target": "_blank"}),
         ]
         node = ParentNode("p", children, None)
         self.assertEqual(
@@ -65,11 +65,11 @@ class TestHTMLNode(unittest.TestCase):
             "<p><b>Bold Text</b>Normal Text<div><b>Bold Text</b><i>Italic Text</i></div><i>Italic Text</i><a href=\"https://example.com\" target=\"_blank\">Link Text</a></p>"
         )
 
-    def test_parent_no_tag(self):
+    def test_to_html_parent_no_tag(self):
         node = ParentNode(None, [LeafNode("p", "Paragraph Text")], None)
         self.assertRaises(ValueError)
 
-    def test_parent_no_children(self):
+    def test_to_html_parent_no_children(self):
         node = ParentNode("p", None, None)
         self.assertRaises(ValueError)
 
