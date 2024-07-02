@@ -31,7 +31,7 @@ class TextNode:
             case "image":
                 return LeafNode("img", "", {"src": self.url, "alt": self.text})
             case _:
-                raise Exception("Invalid TextNode: text_type not supported")
+                raise ValueError("Invalid TextNode: text_type not supported")
 
     def __eq__(self, other):
         return (

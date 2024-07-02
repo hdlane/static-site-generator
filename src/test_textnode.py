@@ -2,7 +2,7 @@ import unittest
 
 from textnode import (
     TextNode,
-    text_types
+    text_types,
 )
 
 
@@ -75,8 +75,8 @@ class TestTextNode(unittest.TestCase):
             repr(node6.text_node_to_html_node()),
             "LeafNode(img, , {'src': 'https://example.com', 'alt': 'Image Text'})"
         )
-        node7 = TextNode("Invalid text_type", "class")
-        self.assertRaises(Exception)
+        with self.assertRaises(ValueError):
+            TextNode("Invalid text_type", "class").text_node_to_html_node()
 
 
 if __name__ == "__main__":
