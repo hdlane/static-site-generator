@@ -6,7 +6,9 @@ from textnode import (
 from inline_markdown import (
     split_nodes_delimiter,
     extract_markdown_images,
-    extract_markdown_links
+    extract_markdown_links,
+    split_nodes_image,
+    split_nodes_link
 )
 
 
@@ -166,6 +168,76 @@ class TestInlineMarkdown(unittest.TestCase):
             [("link name", "https://example.com"),
              ("another link name", "https://example2.com")],
             links_tuple
+        )
+
+    def test_split_nodes_image(self):
+        nodes = [
+            TextNode("text", text_types["text"]),
+            TextNode(
+                "![image](https://example.com/image.png) and text", text_types["text"]),
+            TextNode(
+                "text ![image](https://example.com/image.png) and ![image](https://example.com/image.png)", text_types["text"]),
+            TextNode("![image](https://example.com/image.png)",
+                     text_types["text"]),
+            TextNode(
+                "text and [link](https://example.com/) and ![image](https://example.com/image.png)", text_types["text"]),
+        ]
+        split_nodes = split_nodes_image(nodes)
+        self.assertListEqual(
+            [
+                TextNode("text", text_types["text"]),
+                TextNode("image", text_types["image"],
+                         "https://example.com/image.png"),
+                TextNode(" and text", text_types["text"]),
+                TextNode("text ", text_types["text"]),
+                TextNode("image", text_types["image"],
+                         "https://example.com/image.png"),
+                TextNode(" and ", text_types["text"]),
+                TextNode("image", text_types["image"],
+                         "https://example.com/image.png"),
+                TextNode("image", text_types["image"],
+                         "https://example.com/image.png"),
+                TextNode(
+                    "text and [link](https://example.com/) and ", text_types["text"]),
+                TextNode("image", text_types["image"],
+                         "https://example.com/image.png"),
+            ],
+            split_nodes
+        )
+
+    def test_split_nodes_link(self):
+        nodes = [
+            TextNode("text", text_types["text"]),
+            TextNode(
+                "[link](https://example.com/) and text", text_types["text"]),
+            TextNode(
+                "text [link](https://example.com/) and [link](https://example.com/)", text_types["text"]),
+            TextNode("[link](https://example.com/)",
+                     text_types["text"]),
+            TextNode(
+                "text and [link](https://example.com/) and ![image](https://example.com/image.png)", text_types["text"]),
+        ]
+        split_nodes = split_nodes_link(nodes)
+        self.assertListEqual(
+            [
+                TextNode("text", text_types["text"]),
+                TextNode("link", text_types["link"],
+                         "https://example.com/"),
+                TextNode(" and text", text_types["text"]),
+                TextNode("text ", text_types["text"]),
+                TextNode("link", text_types["link"],
+                         "https://example.com/"),
+                TextNode(" and ", text_types["text"]),
+                TextNode("link", text_types["link"],
+                         "https://example.com/"),
+                TextNode("link", text_types["link"],
+                         "https://example.com/"),
+                TextNode("text and ", text_types["text"]),
+                TextNode("link", text_types["link"], "https://example.com/"),
+                TextNode(
+                    " and ![image](https://example.com/image.png)", text_types["text"]),
+            ],
+            split_nodes
         )
 
 
