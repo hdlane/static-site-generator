@@ -2,6 +2,16 @@ import re
 from textnode import TextNode, text_types
 
 
+def text_to_textnodes(text):
+    nodes = [TextNode(text, text_types["text"])]
+    nodes = split_nodes_delimiter(nodes, "**", text_types["bold"])
+    nodes = split_nodes_delimiter(nodes, "*", text_types["italic"])
+    nodes = split_nodes_delimiter(nodes, "`", text_types["code"])
+    nodes = split_nodes_image(nodes)
+    nodes = split_nodes_link(nodes)
+    return nodes
+
+
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     supported_text_types = ["text", "bold", "code", "italic"]
     new_nodes = []
