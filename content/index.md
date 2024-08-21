@@ -13,15 +13,15 @@
 
 ## My favorite characters (in order)
 
-1. [ ] Gandalf
-2. [ ] Bilbo
-3. [ ] Sam
-4. [ ] Glorfindel
-5. [ ] Galadriel
-6. [ ] Elrond
-7. [ ] Thorin
-8. [ ] Sauron
-9. [ ] Aragorn
+1. Gandalf
+2. Bilbo
+3. Sam
+4. Glorfindel
+5. Galadriel
+6. Elrond
+7. Thorin
+8. Sauron
+9. Aragorn
 
 Here's what `elflang` looks like (the perfect coding language):
 

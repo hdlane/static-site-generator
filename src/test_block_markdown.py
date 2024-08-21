@@ -85,7 +85,7 @@ code
         html = node.to_html()
         self.assertEqual(
             html,
-            "<div><p>Hello, world!</p><ul><li>One</li><li>Two</li></ul><ol><li>One</li><li>Two</li></ol><pre><code>\ncode\n</code></pre><h1>Heading 1</h1><blockquote>Quote one\n Quote two</blockquote></div>"
+            "<div><p>Hello, world!</p><ul><li>One</li><li>Two</li></ul><ol><li>One</li><li>Two</li></ol><pre><code>code\n</code></pre><h1>Heading 1</h1><blockquote>Quote one Quote two</blockquote></div>"
         )
 
     def test_extract_title(self):

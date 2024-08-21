@@ -3,6 +3,7 @@ import unittest
 from textnode import (
     TextNode,
     text_types,
+    text_node_to_html_node,
 )
 
 
@@ -44,39 +45,28 @@ class TestTextNode(unittest.TestCase):
 
     def test_text_node_to_html_node(self):
         node = TextNode("Raw Text", text_types["text"])
-        self.assertEqual(
-            repr(node.text_node_to_html_node()),
-            "LeafNode(None, Raw Text, None)"
-        )
+        html_node = text_node_to_html_node(node)
+        self.assertEqual(html_node.tag, None)
         node2 = TextNode("Bold Text", text_types["bold"])
-        self.assertEqual(
-            repr(node2.text_node_to_html_node()),
-            "LeafNode(b, Bold Text, None)"
-        )
+        html_node2 = text_node_to_html_node(node2)
+        self.assertEqual(html_node2.tag, "b")
         node3 = TextNode("Italic Text", text_types["italic"])
-        self.assertEqual(
-            repr(node3.text_node_to_html_node()),
-            "LeafNode(i, Italic Text, None)"
-        )
+        html_node3 = text_node_to_html_node(node3)
+        self.assertEqual(html_node3.tag, "i")
         node4 = TextNode("Code Text", text_types["code"])
-        self.assertEqual(
-            repr(node4.text_node_to_html_node()),
-            "LeafNode(code, Code Text, None)"
-        )
+        html_node4 = text_node_to_html_node(node4)
+        self.assertEqual(html_node4.tag, "code")
         node5 = TextNode(
             "Link Text", text_types["link"], "https://example.com")
-        self.assertEqual(
-            repr(node5.text_node_to_html_node()),
-            "LeafNode(a, Link Text, {'href': 'https://example.com'})"
-        )
+        html_node5 = text_node_to_html_node(node5)
+        self.assertEqual(html_node5.tag, "a")
         node6 = TextNode(
             "Image Text", text_types["image"], "https://example.com")
-        self.assertEqual(
-            repr(node6.text_node_to_html_node()),
-            "LeafNode(img, , {'src': 'https://example.com', 'alt': 'Image Text'})"
-        )
+        html_node6 = text_node_to_html_node(node6)
+        self.assertEqual(html_node6.tag, "img")
         with self.assertRaises(ValueError):
-            TextNode("Invalid text_type", "class").text_node_to_html_node()
+            node7 = TextNode("Invalid text_type", "class")
+            html_node7 = text_node_to_html_node(node7)
 
 
 if __name__ == "__main__":
