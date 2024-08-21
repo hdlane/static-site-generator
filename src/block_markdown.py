@@ -160,36 +160,3 @@ def ul_to_html_node(block):
         children = text_to_children(text)
         html_items.append(ParentNode("li", children))
     return ParentNode("ul", html_items)
-
-
-def extract_title(markdown):
-    first_line = markdown.split('\n\n')[0]
-    if first_line.startswith("# "):
-        return first_line.strip("# ")
-    else:
-        return Exception("No h1 header at top of file")
-
-
-def generate_page(from_path, template_path, dest_path):
-    print(f"Generating page from {from_path} to {
-          dest_path} using {template_path}")
-
-    markdown = ""
-    html = ""
-
-    with open(from_path, 'r') as f:
-        markdown += f.read()
-
-    with open(template_path, 'r') as f:
-        html += f.read()
-
-    title = extract_title(markdown)
-    content = markdown_to_html_node(markdown).to_html()
-
-    html = html.replace("{{ Title }}", title)
-    html = html.replace("{{ Content }}", content)
-
-    os.makedirs(os.path.dirname(dest_path), exist_ok=True)
-
-    with open(dest_path, 'w') as f:
-        f.write(html)
