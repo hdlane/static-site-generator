@@ -4,6 +4,7 @@ from block_markdown import (
     block_to_block_type,
     markdown_to_blocks,
     markdown_to_html_node,
+    extract_title
 )
 
 
@@ -85,6 +86,23 @@ code
         self.assertEqual(
             html,
             "<div><p>Hello, world!</p><ul><li>One</li><li>Two</li></ul><ol><li>One</li><li>Two</li></ol><pre><code>\ncode\n</code></pre><h1>Heading 1</h1><blockquote>Quote one\n Quote two</blockquote></div>"
+        )
+
+    def test_extract_title(self):
+        markdown1 = """# Heading1
+
+Paragraph"""
+        title1 = extract_title(markdown1)
+        self.assertEqual(
+            title1,
+            "Heading1"
+        )
+        markdown2 = """Paragraph
+
+# Heading1"""
+        title2 = extract_title(markdown2)
+        self.failureException(
+            title2
         )
 
 
