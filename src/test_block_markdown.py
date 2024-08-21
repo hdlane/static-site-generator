@@ -1,11 +1,10 @@
 import unittest
-from htmlnode import LeafNode, ParentNode
 from block_markdown import (
     block_to_block_type,
     markdown_to_blocks,
-    markdown_to_html_node,
-    extract_title
+    markdown_to_html_node
 )
+from generate_content import extract_title
 
 
 class TestBlockMarkdown(unittest.TestCase):
