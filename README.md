@@ -4,6 +4,10 @@
 
 Static site generator built from scratch with Python which parses markdown to generate HTML pages.
 
+<p align="center">
+<img src="https://github.com/user-attachments/assets/56e5d4ff-921d-43b3-bfe1-268d14dc2cf3" />
+</p>
+
 ### Features
 
 * Takes Markdown (.md) files and converts them to HTML pages
